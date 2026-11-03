@@ -1,3 +1,4 @@
+using ExpenseSplitter.Services;
 
 namespace ExpenseSplitter
 {
@@ -13,6 +14,7 @@ namespace ExpenseSplitter
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddScoped<IExpenseCalculatorService, ExpenseCalculatorService>();
 
             var app = builder.Build();
 
