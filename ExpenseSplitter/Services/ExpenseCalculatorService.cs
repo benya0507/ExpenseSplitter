@@ -6,7 +6,14 @@ namespace ExpenseSplitter.Services
     {
         public ExpenseResponse CalculateExpense(ExpenseRequest request)
         {
-            throw new NotImplementedException();
+            decimal fuelCost = (request.Distance / 100) * request.FuelConsumption * request.FuelPrice;
+            decimal totalCost = fuelCost + request.VignettePrice + request.ExtraExpenses;
+            decimal costPerPerson = totalCost / request.NumberOfPassengers;
+            return new ExpenseResponse
+            {
+                TotalCost = totalCost,
+                CostPerPerson = costPerPerson,
+            };
         }
     }
 }
