@@ -1,6 +1,12 @@
-﻿namespace ExpenseSplitter.Services
+﻿using ExpenseSplitter.Models;
+
+namespace ExpenseSplitter.Services
 {
-    public class ExpenseCalculatorService
+    public class ExpenseCalculatorService : IExpenseCalculatorService
     {
+        public ExpenseResponse CalculateExpense(ExpenseRequest request)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
