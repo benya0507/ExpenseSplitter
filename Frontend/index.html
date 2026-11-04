@@ -50,23 +50,32 @@
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(requestData),
         });
-        const data = await response.json();
+        if (!response.ok) {
+          const text = await response.text();
+          document.getElementById("totalCost").innerText = text;
+          document.getElementById("costPerPerson").innerText = "";
+        } else {
+          const data = await response.json();
+          let costPerPersonString;
+          if (requestData.numberOfPassengers === 1) {
+            costPerPersonString = "You are travelling alone!";
+          } else {
+            costPerPersonString =
+              "The cost per " +
+              requestData.numberOfPassengers +
+              " people is " +
+              Math.round(data.costPerPerson).toLocaleString("hu-HU") +
+              " forints";
+          }
 
-        const totalCostString =
-          "Your total cost is " +
-          Math.round(data.totalCost).toLocaleString("hu-HU") +
-          " forints";
-
-        const costPerPersonString =
-          "The cost per " +
-          document.getElementById("numberOfPassengers").value +
-          " persons is " +
-          Math.round(data.costPerPerson).toLocaleString("hu-HU") +
-          " forints";
-
-        document.getElementById("totalCost").innerText = totalCostString;
-        document.getElementById("costPerPerson").innerText =
-          costPerPersonString;
+          const totalCostString =
+            "Your total cost is " +
+            Math.round(data.totalCost).toLocaleString("hu-HU") +
+            " forints";
+          document.getElementById("totalCost").innerText = totalCostString;
+          document.getElementById("costPerPerson").innerText =
+            costPerPersonString;
+        }
       });
     </script>
   </body>
