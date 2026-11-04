@@ -24,7 +24,6 @@
       <button type="submit">Calculate!</button><br />
       <div>
         <p id="totalCost"></p>
-        <br />
         <p id="costPerPerson"></p>
       </div>
     </form>
@@ -52,8 +51,22 @@
           body: JSON.stringify(requestData),
         });
         const data = await response.json();
-        document.getElementById("totalCost").innerText = data.totalCost;
-        document.getElementById("costPerPerson").innerText = data.costPerPerson;
+
+        const totalCostString =
+          "Your total cost is " +
+          Math.round(data.totalCost).toLocaleString("hu-HU") +
+          " forints";
+
+        const costPerPersonString =
+          "The cost per " +
+          document.getElementById("numberOfPassengers").value +
+          " persons is " +
+          Math.round(data.costPerPerson).toLocaleString("hu-HU") +
+          " forints";
+
+        document.getElementById("totalCost").innerText = totalCostString;
+        document.getElementById("costPerPerson").innerText =
+          costPerPersonString;
       });
     </script>
   </body>
