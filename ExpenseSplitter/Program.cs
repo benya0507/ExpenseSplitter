@@ -15,6 +15,7 @@ namespace ExpenseSplitter
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddScoped<IExpenseCalculatorService, ExpenseCalculatorService>();
+            builder.Services.AddCors(options => options.AddPolicy("AllowAll",policy => policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
 
             var app = builder.Build();
 
@@ -24,6 +25,8 @@ namespace ExpenseSplitter
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseCors("AllowAll");
 
             app.UseHttpsRedirection();
 
