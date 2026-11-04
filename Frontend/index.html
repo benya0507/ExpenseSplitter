@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form id="travelExpenseForm">
+      <p>Distance (km):</p>
+      <input required type="number" id="distance" step="any" />
+      <p>Fuel consumption (l/100km):</p>
+      <input required type="number" id="fuelConsumption" step="any" />
+      <p>Fuel price (forints):</p>
+      <input required type="number" id="fuelPrice" step="any" />
+      <p>Vignette price (forints):</p>
+      <input type="number" id="vignettePrice" />
+      <p>Extra expenses (forints):</p>
+      <input type="number" id="extraExpenses" />
+      <p>Number of passengers:</p>
+      <input required type="number" id="numberOfPassengers" />
+      <br />
+      <br />
+      <button type="submit">Calculate!</button><br />
+      <div>
+        <p id="totalCost"></p>
+        <br />
+        <p id="costPerPerson"></p>
+      </div>
+    </form>
+    <script>
+      const travelExpenseForm = document.getElementById("travelExpenseForm");
+      travelExpenseForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        const requestData = {
+          distance: parseFloat(document.getElementById("distance").value),
+          fuelConsumption: parseFloat(
+            document.getElementById("fuelConsumption").value,
+          ),
+          fuelPrice: parseFloat(document.getElementById("fuelPrice").value),
+          vignettePrice:
+            parseInt(document.getElementById("vignettePrice").value) || 0,
+          extraExpenses:
+            parseInt(document.getElementById("extraExpenses").value) || 0,
+          numberOfPassengers: parseInt(
+            document.getElementById("numberOfPassengers").value,
+          ),
+        };
+        const response = await fetch("https://localhost:7239/api/Expenses", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(requestData),
+        });
+        const data = await response.json();
+        document.getElementById("totalCost").innerText = data.totalCost;
+        document.getElementById("costPerPerson").innerText = data.costPerPerson;
+      });
+    </script>
+  </body>
+</html>
